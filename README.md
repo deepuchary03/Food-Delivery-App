@@ -2,6 +2,8 @@
 
 A full-stack MERN (MongoDB, Express, React, Node.js) application for food delivery services.
 
+## Live link: https://deepuchary-fd.vercel.app/
+
 ## Setup Instructions
 
 ### Prerequisites
