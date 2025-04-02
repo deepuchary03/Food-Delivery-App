@@ -22,8 +22,8 @@ export default function Navbar({
   const { items } = useCart();
 
   return (
-    <header className="bg-white shadow-sm sticky top-0 z-10 bg-orange-400">
-      <div className="max-w-7xl mx-auto px-4 py-4 ">
+    <header className=" shadow-sm sticky top-0 z-10 container">
+      <div className="max-w-7xl mx-auto px-4 py-4 container">
         <div className="flex flex-wrap items-center justify-between">
           {/* Logo Section */}
           <div className="flex items-center space-x-2">
