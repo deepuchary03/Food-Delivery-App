@@ -19,7 +19,9 @@ function App() {
     const isDbConnected = true; // Replace with real status check
     return (
       <div
-        className="fixed bottom-4 right-4 flex items-center justify-center w-10 h-10 bg-white shadow-lg rounded-full"
+        className={`fixed bottom-4 right-4 flex items-center justify-center w-10 h-10 shadow-lg rounded-full ${
+          isDbConnected ? "bg-green-500" : "bg-red-500"
+        }`}
         title={isDbConnected ? "Database Connected" : "Database Disconnected"}
       >
         <svg
@@ -32,9 +34,7 @@ function App() {
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className={`lucide lucide-database w-6 h-6 ${
-            isDbConnected ? "text-green-600" : "text-red-600"
-          }`}
+          className="lucide lucide-database w-6 h-6 text-white"
         >
           <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
           <path d="M3 5V19A9 3 0 0 0 21 19V5"></path>
