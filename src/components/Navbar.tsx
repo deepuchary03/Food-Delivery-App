@@ -22,13 +22,12 @@ export default function Navbar({
   const { items } = useCart();
 
   return (
-    <header className=" shadow-sm sticky top-0 z-10 container">
-      <div className="max-w-7xl mx-auto px-4 py-4 container">
+    <header className="bg-white shadow-sm sticky top-0 z-10 containe">
+      <div className="max-w-7xl mx-auto px-4 py-4 containe">
         <div className="flex flex-wrap items-center justify-between">
           {/* Logo Section */}
           <div className="flex items-center space-x-2">
             <img src={Logo1} alt="FoodDelivery Logo" className="h-8 w-8" />
-            <h1 className="text-2xl font-bold text-gray-900">FoodDelivery</h1>
           </div>
 
           {/* Search and Actions Section */}
