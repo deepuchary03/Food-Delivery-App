@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-//import { Utensils } from "lucide-react";
 import Navbar from "./components/Navbar";
 import RestaurantGrid from "./components/RestaurantGrid";
 import Orders from "./components/Orders";
@@ -14,6 +13,36 @@ function App() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
+
+  // Function to render database status
+  const renderDbStatus = () => {
+    const isDbConnected = true; // Replace with real status check
+    return (
+      <div
+        className="fixed bottom-4 right-4 flex items-center justify-center w-10 h-10 bg-white shadow-lg rounded-full"
+        title={isDbConnected ? "Database Connected" : "Database Disconnected"}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className={`lucide lucide-database w-6 h-6 ${
+            isDbConnected ? "text-green-600" : "text-red-600"
+          }`}
+        >
+          <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+          <path d="M3 5V19A9 3 0 0 0 21 19V5"></path>
+          <path d="M3 12A9 3 0 0 0 21 12"></path>
+        </svg>
+      </div>
+    );
+  };
 
   return (
     <AuthProvider>
@@ -64,8 +93,10 @@ function App() {
             isOpen={isAuthModalOpen}
             onClose={() => setIsAuthModalOpen(false)}
           />
-
           <Cart isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+
+          {/* Render Database Status */}
+          {renderDbStatus()}
         </div>
       </CartProvider>
     </AuthProvider>
