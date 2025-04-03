@@ -1,15 +1,8 @@
 import React, { useState } from "react";
-import {
-  Utensils,
-  ShoppingBag,
-  User,
-  Search,
-  LogOut,
-  Menu,
-  X,
-} from "lucide-react";
+import { ShoppingBag, User, Search, LogOut, Menu, X } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
+import logo from "./logo2.svg";
 
 interface NavbarProps {
   searchQuery: string;
@@ -35,7 +28,7 @@ export default function Navbar({
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <Utensils className="h-8 w-8 text-white" />
+            <img src={logo} alt="Food Delivery Logo" className="h-5 w-auto" />
             <h1 className="text-xl sm:text-2xl font-bold text-white ml-2">
               FoodDelivery
             </h1>

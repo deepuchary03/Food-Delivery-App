@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Utensils } from "lucide-react";
+
 import Navbar from "./components/Navbar";
 import RestaurantGrid from "./components/RestaurantGrid";
 import Orders from "./components/Orders";

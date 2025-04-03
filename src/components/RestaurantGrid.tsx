@@ -79,7 +79,7 @@ const restaurants = [
         name: "Salmon Nigiri",
         price: 399,
         image:
-          "https://images.unsplash.com/photo-1633478062482-5b11c3f9cac2?w=800",
+          "https://images.unsplash.com/photo-1559314809-0d155014e29e?w=800",
         description: "Fresh salmon over seasoned rice",
       },
     ],
@@ -152,7 +152,7 @@ const restaurants = [
         name: "Falafel Platter",
         price: 279,
         image:
-          "https://images.unsplash.com/photo-1593001874117-c99c900c7a23?w=800",
+          "https://images.unsplash.com/photo-1559314809-0d155014e29e?w=800",
         description: "Crispy falafel with hummus and pita bread",
       },
       {
