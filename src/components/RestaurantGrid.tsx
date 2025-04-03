@@ -152,7 +152,7 @@ const restaurants = [
         name: "Falafel Platter",
         price: 279,
         image:
-          "https://images.unsplash.com/photo-1599974579688-8dbdd335c77f?w=800",
+          "https://images.unsplash.com/photo-1593001874117-c99c900c7a23?w=800",
         description: "Crispy falafel with hummus and pita bread",
       },
       {
@@ -301,7 +301,7 @@ export default function RestaurantGrid({ searchQuery }: RestaurantGridProps) {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {filteredRestaurants.map((restaurant) => (
         <div
           key={restaurant.id}
@@ -314,7 +314,7 @@ export default function RestaurantGrid({ searchQuery }: RestaurantGridProps) {
               className="w-full h-48 object-cover"
             />
             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4">
-              <h3 className="text-2xl font-bold text-white">
+              <h3 className="text-xl sm:text-2xl font-bold text-white">
                 {restaurant.name}
               </h3>
               <p className="text-white text-sm mt-1">
@@ -368,7 +368,7 @@ export default function RestaurantGrid({ searchQuery }: RestaurantGridProps) {
                   {restaurant.menu.map((item) => (
                     <div
                       key={item.id}
-                      className="flex justify-between border-b pb-4"
+                      className="flex flex-col sm:flex-row justify-between border-b pb-4"
                     >
                       <div className="flex space-x-3">
                         <img
@@ -389,9 +389,9 @@ export default function RestaurantGrid({ searchQuery }: RestaurantGridProps) {
                           e.stopPropagation();
                           addToCart(item);
                         }}
-                        className="bg-orange-500 text-white px-3 py-1 h-10 self-center rounded hover:bg-orange-600 transition-colors"
+                        className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600 transition-colors mt-2 sm:mt-0 sm:self-center"
                       >
-                        Add
+                        Add to Cart
                       </button>
                     </div>
                   ))}
@@ -399,11 +399,11 @@ export default function RestaurantGrid({ searchQuery }: RestaurantGridProps) {
               )}
 
               {!expandedRestaurant && (
-                <div className="mt-2 flex flex-wrap gap-2">
+                <div className="mt-2 space-y-2">
                   {restaurant.menu.slice(0, 2).map((item) => (
                     <div
                       key={item.id}
-                      className="flex items-center justify-between border rounded p-2 w-full"
+                      className="flex items-center justify-between border rounded p-2"
                     >
                       <div className="flex items-center space-x-2">
                         <img
@@ -435,7 +435,7 @@ export default function RestaurantGrid({ searchQuery }: RestaurantGridProps) {
       ))}
 
       {filteredRestaurants.length === 0 && (
-        <div className="bg-white rounded-lg shadow-md p-8 text-center">
+        <div className="col-span-full bg-white rounded-lg shadow-md p-8 text-center">
           <p className="text-gray-600 text-lg">
             No restaurants or dishes found matching "{searchQuery}"
           </p>
