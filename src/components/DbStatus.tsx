@@ -42,14 +42,14 @@ export default function DbStatus() {
       {isConnected ? (
         <>
           <Database className="h-5 w-5 text-green-600" />
-          <span className="text-sm font-medium text-green-700">
+          <span className="text-sm font-medium text-green-700 hidden">
             Database Connected
           </span>
         </>
       ) : (
         <>
           <DatabaseOff className="h-5 w-5 text-red-600" />
-          <span className="text-sm font-medium text-red-700">
+          <span className="text-sm font-medium text-red-700 hidden">
             Database Disconnected
           </span>
         </>
