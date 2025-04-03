@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import img from "./components/deepu profile.jpeg";
 
 import Navbar from "./components/Navbar";
 import RestaurantGrid from "./components/RestaurantGrid";
@@ -65,6 +66,18 @@ function App() {
           <Cart isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
 
           <DbStatus />
+          <footer
+            className="text-center py-2 shadow-md"
+            style={{ backgroundColor: "white", color: "#ea580c" }}
+          >
+            Built with ❤️ by
+            <img
+              src={img}
+              alt="Avatar"
+              className="inline-block w-6 h-6 rounded-full mx-2"
+            />
+            S Pranav (Deepu)
+          </footer>
         </div>
       </CartProvider>
     </AuthProvider>
