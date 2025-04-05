@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { useCart } from '../context/CartContext';
-import { useAuth } from '../context/AuthContext';
-import { X } from 'lucide-react';
+import React, { useState } from "react";
+import { useCart } from "../context/CartContext";
+import { useAuth } from "../context/AuthContext";
+import { X } from "lucide-react";
+import toast from "react-hot-toast";
 
 interface CartProps {
   isOpen: boolean;
@@ -13,23 +14,36 @@ export default function Cart({ isOpen, onClose }: CartProps) {
   const { user, placeOrder } = useAuth();
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [address, setAddress] = useState({
-    street: '',
-    city: '',
-    state: '',
-    zipCode: ''
+    street: "",
+    city: "",
+    state: "",
+    zipCode: "",
   });
-  const [paymentMethod, setPaymentMethod] = useState('card');
+  const [paymentMethod, setPaymentMethod] = useState("card");
 
   if (!isOpen) return null;
 
   const handleCheckout = async () => {
     if (!user) {
-      alert('Please sign in to place an order');
+      toast.error("Please sign in to place an order");
       return;
     }
 
-    if (!address.street || !address.city || !address.state || !address.zipCode) {
-      alert('Please fill in all address fields');
+    // Validate all address fields
+    if (!address.street.trim()) {
+      toast.error("Please enter your street address");
+      return;
+    }
+    if (!address.city.trim()) {
+      toast.error("Please enter your city");
+      return;
+    }
+    if (!address.state.trim()) {
+      toast.error("Please enter your state");
+      return;
+    }
+    if (!address.zipCode.trim()) {
+      toast.error("Please enter your ZIP code");
       return;
     }
 
@@ -38,15 +52,15 @@ export default function Cart({ isOpen, onClose }: CartProps) {
         items,
         totalAmount: total,
         deliveryAddress: address,
-        paymentMethod
+        paymentMethod,
       });
       clearCart();
       setIsCheckingOut(false);
       onClose();
-      alert('Order placed successfully!');
+      toast.success("Order placed successfully!");
     } catch (error) {
-      console.error('Error placing order:', error);
-      alert('Failed to place order. Please try again.');
+      console.error("Error placing order:", error);
+      toast.error("Failed to place order. Please try again.");
     }
   };
 
@@ -55,11 +69,14 @@ export default function Cart({ isOpen, onClose }: CartProps) {
       <div className="bg-white w-full max-w-md h-full flex flex-col">
         <div className="p-4 border-b flex justify-between items-center">
           <h2 className="text-xl font-semibold">Your Cart</h2>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-500">
+          <button
+            onClick={onClose}
+            className="text-gray-400 hover:text-gray-500"
+          >
             <X className="h-6 w-6" />
           </button>
         </div>
-        
+
         <div className="flex-1 overflow-y-auto p-4">
           {items.length === 0 ? (
             <p className="text-center text-gray-500">Your cart is empty</p>
@@ -68,7 +85,10 @@ export default function Cart({ isOpen, onClose }: CartProps) {
               {!isCheckingOut ? (
                 <div className="space-y-4">
                   {items.map((item) => (
-                    <div key={item.id} className="flex items-center space-x-4 border-b pb-4">
+                    <div
+                      key={item.id}
+                      className="flex items-center space-x-4 border-b pb-4"
+                    >
                       <img
                         src={item.image}
                         alt={item.name}
@@ -79,14 +99,21 @@ export default function Cart({ isOpen, onClose }: CartProps) {
                         <p className="text-gray-500">₹{item.price}</p>
                         <div className="flex items-center space-x-2 mt-2">
                           <button
-                            onClick={() => updateQuantity(item.id, Math.max(0, item.quantity - 1))}
+                            onClick={() =>
+                              updateQuantity(
+                                item.id,
+                                Math.max(0, item.quantity - 1)
+                              )
+                            }
                             className="text-gray-500 hover:text-gray-700"
                           >
                             -
                           </button>
                           <span>{item.quantity}</span>
                           <button
-                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                            onClick={() =>
+                              updateQuantity(item.id, item.quantity + 1)
+                            }
                             className="text-gray-500 hover:text-gray-700"
                           >
                             +
@@ -110,7 +137,9 @@ export default function Cart({ isOpen, onClose }: CartProps) {
                       type="text"
                       placeholder="Street Address"
                       value={address.street}
-                      onChange={(e) => setAddress({...address, street: e.target.value})}
+                      onChange={(e) =>
+                        setAddress({ ...address, street: e.target.value })
+                      }
                       className="w-full p-2 border rounded"
                       required
                     />
@@ -118,7 +147,9 @@ export default function Cart({ isOpen, onClose }: CartProps) {
                       type="text"
                       placeholder="City"
                       value={address.city}
-                      onChange={(e) => setAddress({...address, city: e.target.value})}
+                      onChange={(e) =>
+                        setAddress({ ...address, city: e.target.value })
+                      }
                       className="w-full p-2 border rounded"
                       required
                     />
@@ -127,7 +158,9 @@ export default function Cart({ isOpen, onClose }: CartProps) {
                         type="text"
                         placeholder="State"
                         value={address.state}
-                        onChange={(e) => setAddress({...address, state: e.target.value})}
+                        onChange={(e) =>
+                          setAddress({ ...address, state: e.target.value })
+                        }
                         className="w-full p-2 border rounded"
                         required
                       />
@@ -135,13 +168,15 @@ export default function Cart({ isOpen, onClose }: CartProps) {
                         type="text"
                         placeholder="ZIP Code"
                         value={address.zipCode}
-                        onChange={(e) => setAddress({...address, zipCode: e.target.value})}
+                        onChange={(e) =>
+                          setAddress({ ...address, zipCode: e.target.value })
+                        }
                         className="w-full p-2 border rounded"
                         required
                       />
                     </div>
                   </div>
-                  
+
                   <h3 className="font-medium text-lg mt-4">Payment Method</h3>
                   <div className="space-y-2">
                     <div className="flex items-center space-x-2">
@@ -150,8 +185,8 @@ export default function Cart({ isOpen, onClose }: CartProps) {
                         id="card"
                         name="paymentMethod"
                         value="card"
-                        checked={paymentMethod === 'card'}
-                        onChange={() => setPaymentMethod('card')}
+                        checked={paymentMethod === "card"}
+                        onChange={() => setPaymentMethod("card")}
                       />
                       <label htmlFor="card">Credit/Debit Card</label>
                     </div>
@@ -161,8 +196,8 @@ export default function Cart({ isOpen, onClose }: CartProps) {
                         id="cash"
                         name="paymentMethod"
                         value="cash"
-                        checked={paymentMethod === 'cash'}
-                        onChange={() => setPaymentMethod('cash')}
+                        checked={paymentMethod === "cash"}
+                        onChange={() => setPaymentMethod("cash")}
                       />
                       <label htmlFor="cash">Cash on Delivery</label>
                     </div>
@@ -172,20 +207,24 @@ export default function Cart({ isOpen, onClose }: CartProps) {
                         id="upi"
                         name="paymentMethod"
                         value="upi"
-                        checked={paymentMethod === 'upi'}
-                        onChange={() => setPaymentMethod('upi')}
+                        checked={paymentMethod === "upi"}
+                        onChange={() => setPaymentMethod("upi")}
                       />
                       <label htmlFor="upi">UPI</label>
                     </div>
                   </div>
-                  
+
                   <div className="mt-4">
                     <h3 className="font-medium text-lg">Order Summary</h3>
                     <div className="mt-2 space-y-2">
                       {items.map((item) => (
                         <div key={item.id} className="flex justify-between">
-                          <span>{item.name} x {item.quantity}</span>
-                          <span>₹{(item.price * item.quantity).toFixed(2)}</span>
+                          <span>
+                            {item.name} x {item.quantity}
+                          </span>
+                          <span>
+                            ₹{(item.price * item.quantity).toFixed(2)}
+                          </span>
                         </div>
                       ))}
                       <div className="border-t pt-2 font-medium flex justify-between">
@@ -199,7 +238,7 @@ export default function Cart({ isOpen, onClose }: CartProps) {
             </>
           )}
         </div>
-        
+
         <div className="border-t p-4">
           {!isCheckingOut ? (
             <>
@@ -209,7 +248,13 @@ export default function Cart({ isOpen, onClose }: CartProps) {
               </div>
               <button
                 disabled={items.length === 0}
-                onClick={() => setIsCheckingOut(true)}
+                onClick={() => {
+                  if (!user) {
+                    toast.error("Please sign in to checkout");
+                    return;
+                  }
+                  setIsCheckingOut(true);
+                }}
                 className="w-full bg-orange-500 text-white py-2 px-4 rounded-md hover:bg-orange-600 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
               >
                 Checkout

@@ -1,5 +1,17 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { loginUser, registerUser, getUserOrders, createOrder as apiCreateOrder } from '../api';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
+import toast from "react-hot-toast";
+import {
+  loginUser,
+  registerUser,
+  getUserOrders,
+  createOrder as apiCreateOrder,
+} from "../api";
 
 interface User {
   id: string;
@@ -27,9 +39,15 @@ interface Order {
   items: OrderItem[];
   totalAmount: number;
   deliveryAddress: DeliveryAddress;
-  status: 'pending' | 'confirmed' | 'preparing' | 'out_for_delivery' | 'delivered' | 'cancelled';
-  paymentStatus: 'pending' | 'completed' | 'failed';
-  paymentMethod: 'card' | 'cash' | 'upi';
+  status:
+    | "pending"
+    | "confirmed"
+    | "preparing"
+    | "out_for_delivery"
+    | "delivered"
+    | "cancelled";
+  paymentStatus: "pending" | "completed" | "failed";
+  paymentMethod: "card" | "cash" | "upi";
   createdAt: string;
 }
 
@@ -58,9 +76,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Load user from localStorage on initial render
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    const storedToken = localStorage.getItem('token');
-    
+    const storedUser = localStorage.getItem("user");
+    const storedToken = localStorage.getItem("token");
+
     if (storedUser && storedToken) {
       setUser(JSON.parse(storedUser));
       setToken(storedToken);
@@ -79,7 +97,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const response = await getUserOrders();
       setOrders(response.data);
     } catch (error) {
-      console.error('Error fetching orders:', error);
+      console.error("Error fetching orders:", error);
+      toast.error("Failed to fetch orders");
     }
   };
 
@@ -87,19 +106,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       const response = await loginUser({ email, password });
       const { user, token } = response.data;
-      
+
       setUser(user);
       setToken(token);
-      
+
       // Save to localStorage
-      localStorage.setItem('user', JSON.stringify(user));
-      localStorage.setItem('token', token);
-      
+      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("token", token);
+
       // Fetch user's orders
       await fetchOrders();
+      toast.success("Welcome back!");
     } catch (error) {
-      console.error('Login error:', error);
-      throw new Error('Login failed');
+      console.error("Login error:", error);
+      toast.error("Invalid credentials");
+      throw new Error("Login failed");
     }
   };
 
@@ -107,18 +128,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       const response = await registerUser({ name, email, password });
       const { user, token } = response.data;
-      
+
       setUser(user);
       setToken(token);
-      
+
       // Save to localStorage
-      localStorage.setItem('user', JSON.stringify(user));
-      localStorage.setItem('token', token);
-      
+      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("token", token);
+
       setOrders([]);
+      toast.success("Registration successful!");
     } catch (error) {
-      console.error('Registration error:', error);
-      throw new Error('Registration failed');
+      console.error("Registration error:", error);
+      toast.error("Registration failed");
+      throw new Error("Registration failed");
     }
   };
 
@@ -126,27 +149,33 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
     setToken(null);
     setOrders([]);
-    
+
     // Clear localStorage
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+
+    toast.success("Logged out successfully");
   };
 
   const placeOrder = async (orderData: OrderInput) => {
     try {
       const response = await apiCreateOrder(orderData);
       const newOrder = response.data;
-      
-      setOrders(prevOrders => [newOrder, ...prevOrders]);
+
+      setOrders((prevOrders) => [newOrder, ...prevOrders]);
+      toast.success("Order placed successfully!");
       return;
     } catch (error) {
-      console.error('Error placing order:', error);
-      throw new Error('Failed to place order');
+      console.error("Error placing order:", error);
+      toast.error("Failed to place order");
+      throw new Error("Failed to place order");
     }
   };
 
   return (
-    <AuthContext.Provider value={{ user, orders, login, register, logout, placeOrder }}>
+    <AuthContext.Provider
+      value={{ user, orders, login, register, logout, placeOrder }}
+    >
       {children}
     </AuthContext.Provider>
   );
@@ -155,7 +184,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 }
