@@ -10,6 +10,8 @@ import DbStatus from "./components/DbStatus";
 import { CartProvider } from "./context/CartContext";
 import { AuthProvider } from "./context/AuthContext";
 
+import { Analytics } from "@vercel/analytics/react";
+
 function App() {
   const [activeTab, setActiveTab] = useState("restaurants");
   const [searchQuery, setSearchQuery] = useState("");
@@ -78,6 +80,7 @@ function App() {
             />
             S Pranav (Deepu)
           </footer>
+          <Analytics />
 
           <Toaster
             position="top-right"
