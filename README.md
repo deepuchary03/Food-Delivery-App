@@ -25,19 +25,6 @@ A full-stack MERN (MongoDB, Express, React, Node.js) application for food delive
    npm install
    
 
-### Running the Application
-
-1. Start both the backend server and frontend development server:
-   bash
-   npm start
-   
-
-   This will concurrently run:
-   - Backend server on http://localhost:5000
-   - Frontend development server on http://localhost:5173
-
-2. Access the application at http://localhost:5173
-
 ## Features
 
 - User authentication (register, login, logout)
